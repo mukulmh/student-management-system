@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h2 style="text-align: center;">{% block title %}Ranking{% endblock %}</h2>
+{% endblock %}
+
+{% block body %}
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('management.index') }}">SMS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('management.index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('management.create') }}">Create</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Ranking
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('management.ranking_student') }}">Student
+                                    Ranking</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('management.ranking_teacher') }}">Teacher
+                                    Ranking</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Filter Class
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('management.index') }}">All Classes</a></li>
+                            {% for class in classes %}
+                            <li><a class="dropdown-item"
+                                    href="{{ url_for('management.filter',id=class.id)}}">{{class.class_name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Menu
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('main.logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--/ Navbar -->
+
+
+    <div class="container mt-3">
+        <h1 class="text-center">Teacher Ranking</h1>
+
+        <div class="layout-wrapper layout-content-navbar layout-without-menu">
+            <div class="layout-page">
+                <!-- Hoverable Table rows -->
+                <div class="card">
+                    <h5 class="card-header">Teacher Information</h5>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Teacher Name</th>
+                                    <th>Class</th>
+                                    <th>Average CGPA</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                {% for teacher in teachers %}
+                                <tr>
+                                    <td>{{ teacher.name }}</td>
+                                    <td>{{ teacher.class_name }}</td>
+                                    <td>{{ "{:.2f}".format(teacher[1]) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--/ Hoverable Table rows -->
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

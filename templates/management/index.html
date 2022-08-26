@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h2 style="text-align: center;">{% block title %}Home{% endblock %}</h2>
+{% endblock %}
+
+{% block body %}
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('management.index') }}">SMS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('management.index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('management.create') }}">Create</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Ranking
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('management.ranking_student') }}">Student
+                                    Ranking</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('management.ranking_teacher') }}">Teacher
+                                    Ranking</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Filter Class
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('management.index') }}">All Classes</a></li>
+                            {% for class in classes %}
+                            <li><a class="dropdown-item"
+                                    href="{{ url_for('management.filter',id=class.id)}}">{{class.class_name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Menu
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('main.logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" onsubmit="return false">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!--/ Navbar -->
+
+
+    <div class="container mt-3">
+        <h1 class="text-center">Student Management System</h1>
+
+        <div class="layout-wrapper layout-content-navbar layout-without-menu">
+            <div class="layout-page">
+                <!-- Hoverable Table rows -->
+                <div class="card">
+                    <h5 class="card-header">Student Information</h5>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Student ID</th>
+                                    <th>Student Name</th>
+                                    <th>Class</th>
+                                    <th>Address</th>
+                                    <th>CGPA</th>
+                                    <th>Class Teacher</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                {% for student in students %}
+                                <tr>
+                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ student[0].student_id
+                                            }}</strong></td>
+                                    <td>{{ student[0].name }}</td>
+                                    <td>{{ student[0].s_class }}</td>
+                                    <td>{{ student[0].address }}</td>
+                                    <td>{{ student[0].cgpa }}</td>
+                                    <td>{{ student[2].name }}</td>
+
+                                    <td>
+                                        <div>
+                                            <div style="float: left;">
+                                                <a class="dropdown-item"
+                                                    href="{{url_for('management.update', id=student[0].id)}}"><i
+                                                        class="bx bx-edit-alt me-1"></i>
+                                                    Edit</a>
+                                            </div>
+                                            <div style="float: right;">
+                                                <a class="dropdown-item"
+                                                    href="{{url_for('management.delete', id=student[0].id)}}"><i
+                                                        class="bx bx-trash me-1"></i>
+                                                    Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--/ Hoverable Table rows -->
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer class="footer bg-light position-absolute bottom-0" style="width: 100%;">
+    <div
+        class="container-fluid d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-1 container-p-x py-3">
+        <div>
+            <a href="https://github.com/mukulmh" class="footer-text fw-bolder">UND3AD</a>
+            ©
+        </div>
+        <div>
+            <a href="{{url_for('main.logout')}}" class="btn btn-sm btn-outline-danger"><i
+                    class="bx bx-log-out-circle"></i>
+                Logout</a>
+        </div>
+    </div>
+</footer>
+{% endblock %}
