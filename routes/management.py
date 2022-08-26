@@ -69,6 +69,8 @@ def update(id):
             return redirect(url_for('management.index'))
 
         db.session.commit()
+        message = 'Student Updated'
+        flash(message)
         return redirect(url_for('management.index'))
 
     return render_template('management/update.html',student=student,classes=classes)
